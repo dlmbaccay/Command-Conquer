@@ -39,6 +39,8 @@ typedef struct Battleships{
 // game design functions
 void gotoxy(int x, int y);
 void boxMaker(int tbLeft, int tbRight, int yTopHor, int yBotHor, int iLHor, int iRHor, int iLVer, int iRVer);
+void homeMenu();
+void welcomeMenu();
 
 board intilializeGameBoard(board freshGameBoard);
 void nullBoard(board gameBoard);
@@ -57,6 +59,7 @@ bool takeShaded(bool aTurn, coordinates nextMove, board gameBoard); // 3rd Valid
 int main(void){
     int l, k;
     int test = 0;
+    char menu;
     
     //System Initilizations
     bool aTurn = true;
@@ -77,90 +80,115 @@ int main(void){
     //Initilize a fresh gameboard with initial positions
     gameBoard = intilializeGameBoard(gameBoard);
 
+    welcomeMenu();
+
     do
     {
-        system ("cls"); // clear screen
+        homeMenu();
+        menu = getch();
+    }
+    while(menu != 's' && menu != 'x');
 
-        nullBoard(gameBoard);
 
-        //Get Input from User
-        if (aTurn) {
-            gotoxy (36, 6); printf("\e[42m"); printf("PLAYER ALPHA'S TURN\n"); printf("\e[0m");
-        } else {
-            gotoxy (36, 6); printf("\e[41m"); printf("PLAYER BETA'S TURN\n"); printf("\e[0m");
-        }
-
-        // This is for checking if we need to get the piece of the player
+    switch (menu)
+    {
+    case 's':
         do
-        { 
-            gamePiece = getPlayerPiece(aTurn, gamePiece);
-            validPiece = validatePiece(gamePiece, aTurn, gameBoard);
-            if (validPiece == false) {
-                for (int i = 9; i < 12; i++)
-                {
-                    gotoxy(36, i); printf("                            ");
-                }
-                
-                gotoxy(36,19); printf("                                ");
-                gotoxy(36, 19); printf("\e[0;91m"); printf("INVALID SELECTION! PLEASE RETRY.");  
-            }
-            //validate game piece
-        } while (validPiece == false);
-
-        do 
         {
-            nextMove = getNextMove(aTurn, gamePiece, nextMove);
-            validNextPiece = validateNextMove(aTurn, gamePiece, nextMove, gameBoard);
-            if (validNextPiece == false) {
+            system ("cls"); // clear screen
 
-                for (int i = 14; i < 18; i++)
-                {
-                    gotoxy(36, i); printf("                            ");
-                }
-                gotoxy(36,19); printf("                                ");
-                gotoxy(36, 19); printf("\e[0;91m"); printf("INVALID MOVE! PLEASE RETRY.");  
-                // getch();
+            nullBoard(gameBoard);
+
+            //Get Input from User
+            if (aTurn) {
+                gotoxy (36, 6); printf("\e[42m"); printf("PLAYER ALPHA'S TURN\n"); printf("\e[0m");
+            } else {
+                gotoxy (36, 6); printf("\e[41m"); printf("PLAYER BETA'S TURN\n"); printf("\e[0m");
             }
-        } while(validNextPiece == false); 
-        
-        gameBoard = movePiece(aTurn, gamePiece, nextMove, gameBoard);
-        aTurn = !aTurn;
-        test++;
-        printf("\n");
 
-        // over = gameOver(over, gameBoard);
+            // This is for checking if we need to get the piece of the player
+            do
+            { 
+                gamePiece = getPlayerPiece(aTurn, gamePiece);
+                validPiece = validatePiece(gamePiece, aTurn, gameBoard);
+                if (validPiece == false) {
+                    for (int i = 9; i < 12; i++)
+                    {
+                        gotoxy(36, i); printf("                            ");
+                    }
+                    
+                    gotoxy(36,19); printf("                                ");
+                    gotoxy(36, 19); printf("\e[0;91m"); printf("INVALID SELECTION! PLEASE RETRY.");  
+                }
+                //validate game piece
+            } while (validPiece == false);
 
-        //nextMove = getNextMove(aTurn, gamePiece, nextMove);
-        
-        // // gameBoard = sortPieces(gameBoard);
-        // for(k = 0; k < MAX_PIECES; k++){
-        //     printf("Alpha %d:%d\n", k+1, gameBoard.alpha[k].eaten);
-        // }
-        // for(k = 0; k < MAX_PIECES; k++){
-        //     printf("Beta %d:%d\n", k+1, gameBoard.beta[k].eaten);
-        // }
-        
-        // //printGameBoard(gameBoard);
-        // ///* For Debugging Purposes
-        //     printf("Player Piece: (%d,%d)\n", gamePiece.nRow, gamePiece.nCol);
-        //     printf("Piece Destination: (%d,%d)\n", nextMove.nRow, nextMove.nCol);
-        // //*/
-        //For Debugging Purposes
-        // printf("Beta Pieces:\n");
-        // for(l = 0; l < 5; l++){
-        //     printf("Coordinate: (%d,%d)\n", gameBoard.beta[l].nRow, gameBoard.beta[l].nCol);
-        // }
-        // //For Debugging Purposes
-        // printf("Alpha Pieces:\n");
-        // for(k = 0; k < 5; k++){
-        //     printf("Coordinate: (%d,%d) :)\n", gameBoard.alpha[k].nRow, gameBoard.alpha[k].nCol);
-        // }
-        // getch();
-        
-    } while(test != 100);
-    // while(over == true)  
+            do 
+            {
+                nextMove = getNextMove(aTurn, gamePiece, nextMove);
+                validNextPiece = validateNextMove(aTurn, gamePiece, nextMove, gameBoard);
+                if (validNextPiece == false) {
 
-    // congratulation function
+                    for (int i = 14; i < 18; i++)
+                    {
+                        gotoxy(36, i); printf("                            ");
+                    }
+                    gotoxy(36,19); printf("                                ");
+                    gotoxy(36, 19); printf("\e[0;91m"); printf("INVALID MOVE! PLEASE RETRY.");  
+                    // getch();
+                }
+            } while(validNextPiece == false); 
+            
+            gameBoard = movePiece(aTurn, gamePiece, nextMove, gameBoard);
+            aTurn = !aTurn;
+            test++;
+            printf("\n");
+
+            // over = gameOver(over, gameBoard);
+
+            //nextMove = getNextMove(aTurn, gamePiece, nextMove);
+            
+            // // gameBoard = sortPieces(gameBoard);
+            // for(k = 0; k < MAX_PIECES; k++){
+            //     printf("Alpha %d:%d\n", k+1, gameBoard.alpha[k].eaten);
+            // }
+            // for(k = 0; k < MAX_PIECES; k++){
+            //     printf("Beta %d:%d\n", k+1, gameBoard.beta[k].eaten);
+            // }
+            
+            // //printGameBoard(gameBoard);
+            // ///* For Debugging Purposes
+            //     printf("Player Piece: (%d,%d)\n", gamePiece.nRow, gamePiece.nCol);
+            //     printf("Piece Destination: (%d,%d)\n", nextMove.nRow, nextMove.nCol);
+            // //*/
+            //For Debugging Purposes
+            // printf("Beta Pieces:\n");
+            // for(l = 0; l < 5; l++){
+            //     printf("Coordinate: (%d,%d)\n", gameBoard.beta[l].nRow, gameBoard.beta[l].nCol);
+            // }
+            // //For Debugging Purposes
+            // printf("Alpha Pieces:\n");
+            // for(k = 0; k < 5; k++){
+            //     printf("Coordinate: (%d,%d) :)\n", gameBoard.alpha[k].nRow, gameBoard.alpha[k].nCol);
+            // }
+            // getch();
+            
+        } while(test != 100);
+        // while(over == true)  
+        // congratulation function
+        break;
+        case 'x':
+        // exit
+        break;
+
+    default:
+        break;
+    }
+
+    
+
+    
+    
 }
 
 board intilializeGameBoard(board freshGameBoard)
@@ -800,4 +828,40 @@ void nullBoard(board gameBoard)
     // a5 = 4 + (4)4
 
     //gotoxy(50, 50); printf(" ");
+}
+
+void welcomeMenu()
+{
+    system ("cls");
+
+    // tbLeft, tbRight, yTopHor, yBotHor, iLHor(tbleft+1), iRHor(tbRight-1), iLVer(yTopHor+1), iRVer(yBotHor-1)
+    printf("\e[4;36m"); boxMaker(3, 32, 2, 13, 4, 31, 3, 12); printf("\e[0m");
+
+    gotoxy(8, 4); printf("\e[46m"); printf("COMMAND AND CONQUER!"); printf("\e[0m"); // title
+
+    printf("\e[4;32m"); gotoxy(12, 6); printf("DEVELOPERS:"); printf("\e[0m");
+    printf("\e[0;33m"); gotoxy(8, 8); printf("BACCAY, Dominic Luis");
+    gotoxy(8, 9); printf("DIGNO, Kenneth Clark");
+    gotoxy(8, 10); printf("MIRANDA, Bien Aaron");
+    gotoxy(8, 11); printf("RANA, Luis Miguel"); printf("\e[0m");
+    getch();
+}
+
+void homeMenu()
+{
+    for(int i = 6; i < 13; i++)
+    {
+        gotoxy (8, i); printf("                    ");
+    }
+
+    printf("\e[41m");
+    gotoxy(6, 6); printf("Conquer The Battlefield!");
+    gotoxy(6, 7); printf("  Become the Commander  ");
+    gotoxy(6, 8); printf("and Eradicate the Enemy.");
+    printf("\e[0m");
+
+    printf("\e[42m");
+    gotoxy(13, 10); printf("[S] START");
+    gotoxy(13, 11); printf("[X] EXIT ");
+    printf("\e[0m");
 }
