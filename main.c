@@ -96,6 +96,12 @@ int main(void){
             gamePiece = getPlayerPiece(aTurn, gamePiece);
             validPiece = validatePiece(gamePiece, aTurn, gameBoard);
             if (validPiece == false) {
+                for (int i = 9; i < 12; i++)
+                {
+                    gotoxy(36, i); printf("                            ");
+                }
+                
+                gotoxy(36,19); printf("                                ");
                 gotoxy(36, 19); printf("\e[0;91m"); printf("INVALID SELECTION! PLEASE RETRY.");  
             }
             //validate game piece
@@ -106,7 +112,14 @@ int main(void){
             nextMove = getNextMove(aTurn, gamePiece, nextMove);
             validNextPiece = validateNextMove(aTurn, gamePiece, nextMove, gameBoard);
             if (validNextPiece == false) {
+
+                for (int i = 14; i < 18; i++)
+                {
+                    gotoxy(36, i); printf("                            ");
+                }
+                gotoxy(36,19); printf("                                ");
                 gotoxy(36, 19); printf("\e[0;91m"); printf("INVALID MOVE! PLEASE RETRY.");  
+                // getch();
             }
         } while(validNextPiece == false); 
         
@@ -477,7 +490,7 @@ bool validateNextMove(bool aTurn, coordinates gamePiece, coordinates nextMove, b
     //Validation 3
     if(checkOccupied == true) //will run if occupied ang tiles, no matter if may piece alpha piece or beta piece na occupied
     {
-        validNextMove = takeShaded( aTurn, nextMove, gameBoard);
+        validNextMove = takeShaded(aTurn, nextMove, gameBoard);
     }
 
     return validNextMove;
@@ -530,7 +543,7 @@ bool checkMove(bool aTurn, coordinates gamePiece, coordinates nextMove, board ga
                 gotoxy(36, 19); printf("\e[0;91m"); printf("OUT OF BOUNDS! PLEASE MAKE A NEW MOVE.");//CHANGEABLE
             } else {
                 gotoxy(36, 20); printf("\e[0;91m"); printf("FORWARD AND DIAGONAL MOVEMENT ONLY!");//CHANGEABLE
-                gotoxy(36, 20); printf("\e[0;91m"); printf("PLEASE MAKE A NEW MOVE.");//CHANGEABLE
+                gotoxy(36, 21); printf("\e[0;91m"); printf("PLEASE MAKE A NEW MOVE.");//CHANGEABLE
             }
         }   
         
