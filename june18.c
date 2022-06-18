@@ -87,8 +87,10 @@ int main(void){
     //Initilize a fresh gameboard with initial positions
     gameBoard = intilializeGameBoard(gameBoard);
 
+    congratulationsAlpha();
+    congratulationsBeta();
+
     welcomeMenu();
-    // rulesMenu();
 
     do
     {
@@ -383,7 +385,6 @@ board movePiece(bool aTurn, coordinates gamePiece, coordinates nextMove, board g
         /* Declare the previous COORDINATES to the COORDINATES of Alpha */
         nextMove.nRow = gameBoard.alpha[gamePiece.nRow].nRow;
         nextMove.nCol = gameBoard.alpha[gamePiece.nCol].nRow;
-        
     }
     
     /* If aTurn is False, then it is Beta's Turn to Play */
@@ -740,11 +741,11 @@ void welcomeMenu()
 
     gotoxy(8, 4); printf("\e[46m"); printf("COMMAND AND CONQUER!"); printf("\e[0m"); // title
 
-    printf("\e[4;32m"); gotoxy(12, 6); printf("DEVELOPERS:"); printf("\e[0m");
-    printf("\e[0;33m"); gotoxy(8, 8); printf("BACCAY, Dominic Luis");
+    printf("\e[48;5;15m\e[38;5;0m"); gotoxy(12, 6); printf("DEVELOPERS:"); printf("\e[0m");
+    printf("\e[48;5;7m\e[38;5;0m"); gotoxy(8, 8); printf("BACCAY, Dominic Luis");
     gotoxy(8, 9); printf("DIGNO, Kenneth Clark");
-    gotoxy(8, 10); printf("MIRANDA, Bien Aaron");
-    gotoxy(8, 11); printf("RANA, Luis Miguel"); printf("\e[0m");
+    gotoxy(8, 10); printf("MIRANDA, Bien Aaron ");
+    gotoxy(8, 11); printf("RANA, Luis Miguel   "); printf("\e[0m");
     getch();
 }
 
@@ -785,8 +786,6 @@ bool gameOver(board gameBoard)
 
     int remainingAlpha;
     int remainingBeta;
-    
-    
 
     // check if alpha has pieces left
     for (int i = 0; i < MAX_PIECES; i++) {
@@ -835,14 +834,16 @@ bool gameOver(board gameBoard)
         over = true; // return
         if (alphaEaten == MAX_PIECES) {
             system("cls");
-            printf("\nPlayer Alpha has lost all of their pieces.\n"); //changeable
-            printf("player Beta has won the game!\n"); //changeable
-            sleep(2);
+            congratulationsBeta();
+            // printf("\nPlayer Alpha has lost all of their pieces.\n"); //changeable
+            // printf("player Beta has won the game!\n"); //changeable
+            // sleep(2);
         } else {
             system("cls");
-            printf("\nplayer Beta has lost all of their pieces.\n"); // changeable
-            printf("Player Alpha has won the game!\n"); //changeable
-            sleep(2);
+            congratulationsAlpha();
+            // printf("\nplayer Beta has lost all of their pieces.\n"); // changeable
+            // printf("Player Alpha has won the game!\n"); //changeable
+            // sleep(2);
         }
     } 
     else if (alphaHomerun == remainingAlpha || betaHomerun == remainingBeta) // over validation 2
@@ -850,15 +851,17 @@ bool gameOver(board gameBoard)
         over = true; // return
         if (alphaHomerun == remainingAlpha) {
             system("cls");
-            printf("\nPlayer Alpha's remaining pieces touched the enemy tile.\n"); // changeable
-            printf("Player Alpha has won the game!\n"); // changeable 
-            sleep(2);
+            congratulationsAlpha();
+            // printf("\nPlayer Alpha's remaining pieces touched the enemy tile.\n"); // changeable
+            // printf("Player Alpha has won the game!\n"); // changeable 
+            // sleep(2);
             //congratulations for alpha
         } else {
             system("cls");
-            printf("\nplayer Beta's remaining pieces touched the enemy tile.\n"); // changeable
-            printf("player Beta has won the game!\n"); // changeable
-            sleep(2);
+            congratulationsBeta();
+            // printf("\nplayer Beta's remaining pieces touched the enemy tile.\n"); // changeable
+            // printf("player Beta has won the game!\n"); // changeable
+            // sleep(2);
             //congratulation for beta
         }
     }
@@ -868,47 +871,105 @@ bool gameOver(board gameBoard)
 
 void rulesMenu()
 {
-    // tbLeft, tbRight, yTopHor, yBotHor, iLHor(tbleft+1), iRHor(tbRight-1), iLVer(yTopHor+1), iRVer(yBotHor-1)
+    char prevnext;
 
-    system("cls");
-    printf("\e[4;36m"); printf("\e[4;34m"); boxMaker(30, 87, 4, 15, 31, 86, 5, 14); printf("\e[0m");
-    printf("\e[4;36m"); printf("\e[4;33m"); boxMaker(30, 87, 17, 24, 31, 86, 18, 23); printf("\e[0m");
-    printf("\e[4;36m"); printf("\e[4;31m"); boxMaker(30, 87, 26, 35, 31, 86, 27, 34); printf("\e[0m");
+    do
+    {
+        system("cls"); 
+        // tbLeft, tbRight, yTopHor, yBotHor, iLHor(tbleft+1), iRHor(tbRight-1), iLVer(yTopHor+1), iRVer(yBotHor-1)
+        printf("\e[4;36m"); boxMaker(3, 32, 2, 13, 4, 31, 3, 12); printf("\e[0m");
+        gotoxy(7,4); printf("\e[42m"); printf("RULES AND REGULATIONS!"); printf("\e[0m"); 
+        gotoxy(10,7); printf("\e[48;5;7m\e[38;5;0m"); printf("[S] SET-UP     ");
+        gotoxy(10,8); printf("[H] HOW TO PLAY");
+        gotoxy(10,9); printf("[W] WINNING    ");
+        gotoxy(10,10); printf("[X] EXIT       "); printf("\e[0m"); 
 
-    gotoxy(47,3); printf("RULES AND REGULATIONS\n");
+        prevnext = getch();
+        prevnext = toupper(prevnext);
 
-    gotoxy(55,5); printf("\e[44m"); printf("SETUP:\n"); printf("\e[0m");
-    gotoxy(33,7); printf("This game is played with 2 players, Alpha and Beta.\n");
-    gotoxy(33,8); printf("Each player begins with 5 pieces that are placed on\n");
-    gotoxy(33,9); printf("the shaded part of the gameboard. Their pieces are\n");
-    gotoxy(33,10); printf("placed on the opposite sides of the board.\n"); 
+        switch(prevnext)
+        {
+            case 'S':
 
-    gotoxy(33,12); printf("The board consists of 35 tiles, alternating between \n");
-    gotoxy(33,13); printf("18 black and 17 white tiles. Position it so that each\n");
-    gotoxy(33,14); printf("player are placed on the longer side of the board.\n"); printf("\e[0m");
+                gotoxy(55,4); printf("\e[42m"); printf("SETUP:\n"); printf("\e[0m");
+                gotoxy(35,6); printf("This game is played with 2 players, Alpha and Beta.\n");
+                gotoxy(35,7); printf("Each player begins with 5 pieces that are placed on\n");
+                gotoxy(35,8); printf("the shaded part of the gameboard. Their pieces are\n");
+                gotoxy(35,9); printf("placed on the opposite sides of the board.\n"); 
 
-    gotoxy(52,18); printf("\e[43m "); printf("HOW TO PLAY:\n"); printf("\e[0m");
-    gotoxy(33,20); printf("Player Alpha moves first then players move in a\n");
-    gotoxy(33,21); printf("sequential manner. Players can move 1 tile forward\n");
-    gotoxy(33,22); printf("or diagonally forward. A player can only eat on a\n");
-    gotoxy(33,23); printf("shaded tile occupied by the enemy, invalid otherwise.\n"); printf("\e[0m");
+                gotoxy(35,11); printf("The board consists of 35 tiles, alternating between \n");
+                gotoxy(35,12); printf("18 black and 17 white tiles. Legends are put in place\n");
+                gotoxy(35,13); printf("of which the player will utilize in moving the pieces.\n"); printf("\e[0m");
+                getch();
+                break;
 
-    gotoxy(54,27);  printf("\e[41m"); printf("WINNING:\n"); printf("\e[0m");
-    gotoxy(40,29); printf("A player can win the game in 2 ways:\n");
-    gotoxy(36,30); printf("- When the player's pieces are all eaten,\n");
-    gotoxy(36,31); printf("  the opposing player wins.\n");
+            case 'H':
 
-    gotoxy(36,33); printf("- When all of the remaining player's pieces\n");
-    gotoxy(36,34); printf("  reach the enemy's base tiles, the player wins.\n");
-    gotoxy(43,37); printf("***PRESS ENTER TO CONTINUE***\n\n"); printf("\e[0m");
-    getch();
+                gotoxy(52,4); printf("\e[42m"); printf("HOW TO PLAY:\n"); printf("\e[0m");
+                gotoxy(35,6); printf("Player Alpha moves first then players move in a\n");
+                gotoxy(35,7); printf("sequential manner. Players can move 1 tile forward\n");
+                gotoxy(35,8); printf("or diagonally forward. A player can only eat on a\n");
+                gotoxy(35,9); printf("shaded tile occupied by the enemy, invalid otherwise.\n"); printf("\e[0m");
+                getch();
+                break;
+
+            case 'W':
+
+                gotoxy(53,4);  printf("\e[42m"); printf("WINNING:\n"); printf("\e[0m");
+                gotoxy(40,6); printf("A player can win the game in 2 ways:\n");
+                gotoxy(36,8); printf("- When the player's pieces are all eaten,\n");
+                gotoxy(36,9); printf("  the opposing player wins.\n");
+
+                gotoxy(36,11); printf("- When all of the remaining player's pieces\n");
+                gotoxy(36,12); printf("  reach the enemy's base tiles, the player wins.\n");
+                getch();
+                break;
+            case 'X':
+                // exit
+                break;
+            default:
+                break;
+        }
+
+    } while(prevnext != 'X');
+
+    
+
+    
+
+    // gotoxy(47,3); printf("RULES AND REGULATIONS\n");
+
+    // gotoxy(55,5); printf("\e[44m"); printf("SETUP:\n"); printf("\e[0m");
+    // gotoxy(33,7); printf("This game is played with 2 players, Alpha and Beta.\n");
+    // gotoxy(33,8); printf("Each player begins with 5 pieces that are placed on\n");
+    // gotoxy(33,9); printf("the shaded part of the gameboard. Their pieces are\n");
+    // gotoxy(33,10); printf("placed on the opposite sides of the board.\n"); 
+
+    // gotoxy(33,12); printf("The board consists of 35 tiles, alternating between \n");
+    // gotoxy(33,13); printf("18 black and 17 white tiles. Position it so that each\n");
+    // gotoxy(33,14); printf("player are placed on the longer side of the board.\n"); printf("\e[0m");
+
+    // gotoxy(52,18); printf("\e[43m "); printf("HOW TO PLAY:\n"); printf("\e[0m");
+    // gotoxy(33,20); printf("Player Alpha moves first then players move in a\n");
+    // gotoxy(33,21); printf("sequential manner. Players can move 1 tile forward\n");
+    // gotoxy(33,22); printf("or diagonally forward. A player can only eat on a\n");
+    // gotoxy(33,23); printf("shaded tile occupied by the enemy, invalid otherwise.\n"); printf("\e[0m");
+
+    // gotoxy(54,27);  printf("\e[41m"); printf("WINNING:\n"); printf("\e[0m");
+    // gotoxy(40,29); printf("A player can win the game in 2 ways:\n");
+    // gotoxy(36,30); printf("- When the player's pieces are all eaten,\n");
+    // gotoxy(36,31); printf("  the opposing player wins.\n");
+
+    // gotoxy(36,33); printf("- When all of the remaining player's pieces\n");
+    // gotoxy(36,34); printf("  reach the enemy's base tiles, the player wins.\n");
+    // gotoxy(43,37); printf("***PRESS ENTER TO CONTINUE***\n\n"); printf("\e[0m");
+    // getch();
 }
 
 //Function for Printing the Congratulations for Beta
-void congratulationsBeta(){
-
-        system("cls");
-
+void congratulationsBeta()
+{
+    system("cls");
     gotoxy(32,4); printf("\e[0;32m");printf("                          ______              \n");
     gotoxy(32,5); printf("\e[0;32m");printf("  _________        .---ooo      ooo----.    \n");
     gotoxy(32,6); printf("\e[0;32m");printf(" :______.-':      :  .---------------.  :                       \n");
@@ -927,20 +988,18 @@ void congratulationsBeta(){
     gotoxy(32,19); printf("\e[0;32m");printf("                  .'.eeeeeeeeeeeeeeeeee.'.      :___:  \n");
     gotoxy(32,20); printf("\e[0;32m");printf("                .'.eeeeeeeeeeeeeeeeeeeeee.'.            \n");
     gotoxy(32,21); printf("\e[0;32m");printf("               :____________________________: \n");
-    gotoxy(36,23); printf("\e[0;31m	");printf("           ****Press ENTER to Continue****    \n");
+    gotoxy(32,23); printf("\e[0;31m	");printf("            ****Press ANY KEY to Continue****    \n");
 
-    gotoxy(54,10); printf("\e[0;36m");printf("Beta Player ");
-    gotoxy(54,11); printf("\e[0;36m");printf("Won! ");
-    gotoxy(54,8); printf("\e[0;36m");printf("CONGRATULATIONS");
-
+    gotoxy(54,10); printf("\e[0;31m");printf("Beta Player ");
+    gotoxy(54,11); printf("Won! ");
+    gotoxy(54,8); printf("CONGRATULATIONS"); printf("\e[0m");
     getch();
 }
 
 //Function for Printing the Congratulations for Alpha
-void congratulationsAlpha(){
-
-        system("cls");
-
+void congratulationsAlpha()
+{
+    system("cls");
     gotoxy(32,4); printf("\e[0;32m");printf("                          ______              \n");
     gotoxy(32,5); printf("\e[0;32m");printf("  _________        .---ooo      ooo----.    \n");
     gotoxy(32,6); printf("\e[0;32m");printf(" :______.-':      :  .---------------.  :                       \n");
@@ -959,11 +1018,10 @@ void congratulationsAlpha(){
     gotoxy(32,19); printf("\e[0;32m");printf("                  .'.eeeeeeeeeeeeeeeeee.'.      :___:  \n");
     gotoxy(32,20); printf("\e[0;32m");printf("                .'.eeeeeeeeeeeeeeeeeeeeee.'.            \n");
     gotoxy(32,21); printf("\e[0;32m");printf("               :____________________________: \n");
-    gotoxy(36,23); printf("\e[0;31m	");printf("          ****Press ENTER to Continue****   \n");
+    gotoxy(32,23); printf("\e[0;31m	");printf("             ****Press ANY KEY to Continue****   \n");
 
-    gotoxy(54,10); printf("\e[0;36m");printf("Alpha Player ");
-    gotoxy(54,11); printf("\e[0;36m");printf("Won! ");
-    gotoxy(54,8); printf("\e[0;36m");printf("CONGRATULATIONS");
-
+    gotoxy(54,10); printf("\e[0;32m");printf("Alpha Player ");
+    gotoxy(54,11); printf("Won! ");
+    gotoxy(54,8); printf("CONGRATULATIONS"); printf("\e[0m");
     getch();
 }
