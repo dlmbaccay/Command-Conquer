@@ -87,9 +87,6 @@ int main(void){
     //Initilize a fresh gameboard with initial positions
     gameBoard = intilializeGameBoard(gameBoard);
 
-    congratulationsAlpha();
-    congratulationsBeta();
-
     welcomeMenu();
 
     do
