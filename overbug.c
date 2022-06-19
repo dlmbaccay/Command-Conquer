@@ -14,11 +14,7 @@
 #define MAX_COLS 5
 #define MAX_PIECES 5
 
-//Font Color
-//if 48 background, if 38 font-color
-// printf("\033[48;5;127m \033[38;5;1m");
-// ANSI Characters
-#define BOX 254
+#define BOX 254 // box element in print board
 
 //Position of Each ordered pairs in the board
 typedef struct orderedPairs{
@@ -742,7 +738,7 @@ void welcomeMenu()
 
     gotoxy(8, 4); printf("\e[46m"); printf("COMMAND AND CONQUER!"); printf("\e[0m"); // title
 
-    printf("\e[48;5;15m\e[38;5;0m"); gotoxy(12, 6); printf("DEVELOPERS:"); printf("\e[0m");
+    printf("\e[48;5;7m\e[38;5;0m"); gotoxy(12, 6); printf("DEVELOPERS:"); printf("\e[0m");
     printf("\e[48;5;7m\e[38;5;0m"); gotoxy(8, 8); printf("BACCAY, Dominic Luis");
     gotoxy(8, 9); printf("DIGNO, Kenneth Clark");
     gotoxy(8, 10); printf("MIRANDA, Bien Aaron ");
